@@ -28,7 +28,9 @@ addBookToLibrary('The Poppy War', 'R.F. Kuang', 545, true);
 addBookToLibrary('The Dragon Republic', 'R.F. Kuang', 654, true);
 addBookToLibrary('The Burning God', 'R.F. Kuang', 622, true);
 
-fantasyLibrary.forEach((book) => {
+// Display book
+
+function displayBook(book) {
   const main = document.querySelector('main');
 
   const card = document.createElement('div');
@@ -47,4 +49,38 @@ fantasyLibrary.forEach((book) => {
   main.appendChild(card);
   card.appendChild(title);
   card.appendChild(info);
+}
+
+fantasyLibrary.forEach((book) => displayBook(book));
+
+// Add new book to library
+
+const newBookBtn = document.querySelector('button.new-book');
+const overlay = document.querySelector('.overlay');
+const dialog = document.querySelector('dialog');
+const addToLibraryBtn = document.querySelector('button.add-to-library');
+
+newBookBtn.addEventListener('click', () => {
+  const form = document.querySelector('form');
+  form.reset();
+  dialog.toggleAttribute('open');
+  overlay.classList.toggle('hidden');
+});
+overlay.addEventListener('click', () => {
+  dialog.toggleAttribute('open');
+  overlay.classList.toggle('hidden');
+});
+
+addToLibraryBtn.addEventListener('click', (event) => {
+  const title = document.querySelector('input[name=title]').value;
+  const author = document.querySelector('input[name=author]').value;
+  const pages = document.querySelector('input[name=pages]').value;
+  const read =
+    document.querySelector('input[name=read]:checked').value === 'true';
+
+  if (title && author && pages) {
+    addBookToLibrary(title, author, pages, read);
+    displayBook(fantasyLibrary.at(-1));
+    overlay.classList.toggle('hidden');
+  }
 });
