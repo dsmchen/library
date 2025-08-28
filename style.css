@@ -132,19 +132,31 @@ main {
 
 .card {
   position: relative;
-  padding: 20px 20px 80px 20px;
+  padding: 20px 20px 100px 20px;
   border: 1px solid #111;
   border-radius: 10px;
 }
 
-.card .remove {
+.card .toggle-read,
+.card .remove-book {
   position: absolute;
-  bottom: 20px;
   right: 20px;
   text-decoration: underline;
 }
 
-.card .remove:hover {
+.card .toggle-read {
+  bottom: calc(1rem + 40px);
+}
+
+.card .toggle-read:hover {
+  color: #0969da;
+}
+
+.card .remove-book {
+  bottom: 20px;
+}
+
+.card .remove-book:hover {
   color: #d1242f;
 }
 

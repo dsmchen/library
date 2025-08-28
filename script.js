@@ -32,7 +32,7 @@ function displayBook(book) {
   card.classList.add('card');
   card.setAttribute('data-id', book.id);
 
-  const title = document.createElement('strong');
+  const title = document.createElement('h3');
   title.classList.add('title');
   title.textContent = book.title;
 
@@ -42,15 +42,21 @@ function displayBook(book) {
     book.read ? 'read' : 'unread'
   }`;
 
-  const removeBtn = document.createElement('a');
-  removeBtn.classList.add('remove');
-  removeBtn.textContent = 'Remove Book';
-  removeBtn.addEventListener('click', removeBook);
+  const toggleReadBtn = document.createElement('a');
+  toggleReadBtn.classList.add('toggle-read');
+  toggleReadBtn.textContent = 'Toggle Read';
+  toggleReadBtn.addEventListener('click', toggleRead);
+
+  const removeBookBtn = document.createElement('a');
+  removeBookBtn.classList.add('remove-book');
+  removeBookBtn.textContent = 'Remove Book';
+  removeBookBtn.addEventListener('click', removeBook);
 
   main.appendChild(card);
   card.appendChild(title);
   card.appendChild(info);
-  card.appendChild(removeBtn);
+  card.appendChild(toggleReadBtn);
+  card.appendChild(removeBookBtn);
 }
 
 fantasyLibrary.forEach((book) => displayBook(book));
@@ -87,11 +93,29 @@ addToLibraryBtn.addEventListener('click', (event) => {
   }
 });
 
+// Toggle read
+
+Book.prototype.toggleRead = function () {
+  this.read = this.read ? false : true;
+};
+
+function toggleRead(event) {
+  const card = event.target.parentElement;
+  const cardID = card.getAttribute('data-id');
+  const cardInfo = card.querySelector('.info');
+
+  const book = fantasyLibrary.find((element) => element.id === cardID);
+  book.toggleRead();
+  cardInfo.textContent = `${book.author}, ${book.pages} pages, ${
+    book.read ? 'read' : 'unread'
+  }`;
+}
+
 // Remove book
 
 function removeBook(event) {
   const card = event.target.parentElement;
-  const cardID = event.target.parentElement.getAttribute('data-id');
+  const cardID = card.getAttribute('data-id');
 
   card.remove();
   fantasyLibrary = fantasyLibrary.filter((book) => book.id !== cardID);
