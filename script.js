@@ -24,9 +24,12 @@ addBookToLibrary(
 );
 addBookToLibrary('A Day of Fallen Night', 'Samantha Shannon', 868, true);
 addBookToLibrary('Among the Burning Flowers', 'Samantha Shannon', 288, false);
+addBookToLibrary('The Poppy War', 'R.F. Kuang', 545, true);
+addBookToLibrary('The Dragon Republic', 'R.F. Kuang', 654, true);
+addBookToLibrary('The Burning God', 'R.F. Kuang', 622, true);
 
 fantasyLibrary.forEach((book) => {
-  const container = document.querySelector('.container');
+  const main = document.querySelector('main');
 
   const card = document.createElement('div');
   card.classList.add('card');
@@ -41,7 +44,7 @@ fantasyLibrary.forEach((book) => {
     book.read ? 'read' : 'unread'
   }`;
 
-  container.appendChild(card);
+  main.appendChild(card);
   card.appendChild(title);
   card.appendChild(info);
 });

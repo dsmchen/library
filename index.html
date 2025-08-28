@@ -7,8 +7,51 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header><h1>Fantasy Library</h1></header>
-    <div class="container"></div>
+    <header>
+      <h1>Fantasy Library</h1>
+      <button class="primary">New Book</button>
+    </header>
+    <main></main>
+    <dialog open>
+      <form method="dialog">
+        <h2>New Book</h2>
+        <div class="form-row">
+          <label for="title">Title</label>
+          <input type="text" name="title" id="title" />
+        </div>
+        <div class="form-row">
+          <label for="author">Author</label>
+          <input type="text" name="author" id="author" />
+        </div>
+        <div class="form-row">
+          <label for="pages">Pages</label>
+          <input type="tel" name="pages" id="pages" />
+        </div>
+        <div>
+          <fieldset>
+            <legend>Read or unread?</legend>
+            <div class="radio-row">
+              <div>
+                <input
+                  type="radio"
+                  id="read"
+                  name="read"
+                  value="read"
+                  checked
+                />
+                <label for="read">Read</label>
+              </div>
+              <div>
+                <input type="radio" id="unread" name="read" value="unread" />
+                <label for="unread">Unread</label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <button class="secondary">Add to library</button>
+      </form>
+    </dialog>
+
     <script src="script.js"></script>
   </body>
 </html>
