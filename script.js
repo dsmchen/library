@@ -1,4 +1,4 @@
-const fantasyLibrary = [];
+let fantasyLibrary = [];
 
 function Book(title, author, pages, read) {
   if (!new.target) {
@@ -11,22 +11,17 @@ function Book(title, author, pages, read) {
   this.id = crypto.randomUUID();
 }
 
-function addBookToLibrary(title, author, pages, read) {
+function addBook(title, author, pages, read) {
   let book = new Book(title, author, pages, read);
   fantasyLibrary.push(book);
 }
 
-addBookToLibrary(
-  'The Priory of the Orange Tree',
-  'Samantha Shannon',
-  848,
-  true
-);
-addBookToLibrary('A Day of Fallen Night', 'Samantha Shannon', 868, true);
-addBookToLibrary('Among the Burning Flowers', 'Samantha Shannon', 288, false);
-addBookToLibrary('The Poppy War', 'R.F. Kuang', 545, true);
-addBookToLibrary('The Dragon Republic', 'R.F. Kuang', 654, true);
-addBookToLibrary('The Burning God', 'R.F. Kuang', 622, true);
+addBook('The Priory of the Orange Tree', 'Samantha Shannon', 848, true);
+addBook('A Day of Fallen Night', 'Samantha Shannon', 868, true);
+addBook('Among the Burning Flowers', 'Samantha Shannon', 288, false);
+addBook('The Poppy War', 'R.F. Kuang', 545, true);
+addBook('The Dragon Republic', 'R.F. Kuang', 654, true);
+addBook('The Burning God', 'R.F. Kuang', 622, true);
 
 // Display book
 
@@ -35,6 +30,7 @@ function displayBook(book) {
 
   const card = document.createElement('div');
   card.classList.add('card');
+  card.setAttribute('data-id', book.id);
 
   const title = document.createElement('strong');
   title.classList.add('title');
@@ -46,14 +42,20 @@ function displayBook(book) {
     book.read ? 'read' : 'unread'
   }`;
 
+  const removeBtn = document.createElement('a');
+  removeBtn.classList.add('remove');
+  removeBtn.textContent = 'Remove Book';
+  removeBtn.addEventListener('click', removeBook);
+
   main.appendChild(card);
   card.appendChild(title);
   card.appendChild(info);
+  card.appendChild(removeBtn);
 }
 
 fantasyLibrary.forEach((book) => displayBook(book));
 
-// Add new book to library
+// Add book
 
 const newBookBtn = document.querySelector('button.new-book');
 const overlay = document.querySelector('.overlay');
@@ -79,8 +81,18 @@ addToLibraryBtn.addEventListener('click', (event) => {
     document.querySelector('input[name=read]:checked').value === 'true';
 
   if (title && author && pages) {
-    addBookToLibrary(title, author, pages, read);
+    addBook(title, author, pages, read);
     displayBook(fantasyLibrary.at(-1));
     overlay.classList.toggle('hidden');
   }
 });
+
+// Remove book
+
+function removeBook(event) {
+  const card = event.target.parentElement;
+  const cardID = event.target.parentElement.getAttribute('data-id');
+
+  card.remove();
+  fantasyLibrary = fantasyLibrary.filter((book) => book.id !== cardID);
+}
