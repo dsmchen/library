@@ -137,6 +137,10 @@ main {
   border-radius: 10px;
 }
 
+.card ul {
+  padding-left: 20px;
+}
+
 .card .toggle-read,
 .card .remove-book {
   position: absolute;

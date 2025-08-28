@@ -1,18 +1,18 @@
 let fantasyLibrary = [];
 
-function Book(title, author, pages, read) {
+function Book(title, author, pages, isRead) {
   if (!new.target) {
     throw Error("You must use the 'new' operator to call the constructor");
   }
   this.title = title;
   this.author = author;
   this.pages = pages;
-  this.read = read;
+  this.isRead = isRead;
   this.id = crypto.randomUUID();
 }
 
-function addBook(title, author, pages, read) {
-  let book = new Book(title, author, pages, read);
+function addBook(title, author, pages, isRead) {
+  let book = new Book(title, author, pages, isRead);
   fantasyLibrary.push(book);
 }
 
@@ -36,11 +36,19 @@ function displayBook(book) {
   title.classList.add('title');
   title.textContent = book.title;
 
-  const info = document.createElement('p');
-  info.classList.add('info');
-  info.textContent = `${book.author}, ${book.pages} pages, ${
-    book.read ? 'read' : 'unread'
-  }`;
+  const list = document.createElement('ul');
+
+  const author = document.createElement('li');
+  author.classList.add('author');
+  author.textContent = book.author;
+
+  const pages = document.createElement('li');
+  pages.classList.add('pages');
+  pages.textContent = `${book.pages} pages`;
+
+  const isRead = document.createElement('li');
+  isRead.classList.add('is-read');
+  isRead.textContent = `${book.isRead ? 'Read' : 'Unread'}`;
 
   const toggleReadBtn = document.createElement('a');
   toggleReadBtn.classList.add('toggle-read');
@@ -53,10 +61,8 @@ function displayBook(book) {
   removeBookBtn.addEventListener('click', removeBook);
 
   main.appendChild(card);
-  card.appendChild(title);
-  card.appendChild(info);
-  card.appendChild(toggleReadBtn);
-  card.appendChild(removeBookBtn);
+  card.append(title, list, toggleReadBtn, removeBookBtn);
+  list.append(author, pages, isRead);
 }
 
 fantasyLibrary.forEach((book) => displayBook(book));
@@ -66,7 +72,7 @@ fantasyLibrary.forEach((book) => displayBook(book));
 const newBookBtn = document.querySelector('button.new-book');
 const overlay = document.querySelector('.overlay');
 const dialog = document.querySelector('dialog');
-const addToLibraryBtn = document.querySelector('button.add-to-library');
+const addBtn = document.querySelector('button.add');
 
 newBookBtn.addEventListener('click', () => {
   const form = document.querySelector('form');
@@ -79,15 +85,15 @@ overlay.addEventListener('click', () => {
   overlay.classList.toggle('hidden');
 });
 
-addToLibraryBtn.addEventListener('click', (event) => {
+addBtn.addEventListener('click', (event) => {
   const title = document.querySelector('input[name=title]').value;
   const author = document.querySelector('input[name=author]').value;
   const pages = document.querySelector('input[name=pages]').value;
-  const read =
-    document.querySelector('input[name=read]:checked').value === 'true';
+  const isRead =
+    document.querySelector('input[name=is_read]:checked').value === 'true';
 
   if (title && author && pages) {
-    addBook(title, author, pages, read);
+    addBook(title, author, pages, isRead);
     displayBook(fantasyLibrary.at(-1));
     overlay.classList.toggle('hidden');
   }
@@ -96,19 +102,17 @@ addToLibraryBtn.addEventListener('click', (event) => {
 // Toggle read
 
 Book.prototype.toggleRead = function () {
-  this.read = this.read ? false : true;
+  this.isRead = !this.isRead;
 };
 
 function toggleRead(event) {
   const card = event.target.parentElement;
   const cardID = card.getAttribute('data-id');
-  const cardInfo = card.querySelector('.info');
+  const cardIsRead = card.querySelector('.is-read');
 
   const book = fantasyLibrary.find((element) => element.id === cardID);
   book.toggleRead();
-  cardInfo.textContent = `${book.author}, ${book.pages} pages, ${
-    book.read ? 'read' : 'unread'
-  }`;
+  cardIsRead.textContent = `${book.isRead ? 'Read' : 'Unread'}`;
 }
 
 // Remove book
