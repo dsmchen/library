@@ -1,14 +1,17 @@
 let fantasyLibrary = [];
 
-function Book(title, author, pages, isRead) {
-  if (!new.target) {
-    throw Error("You must use the 'new' operator to call the constructor");
+class Book {
+  constructor(title, author, pages, isRead, id = crypto.randomUUID()) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.isRead = isRead;
+    this.id = id;
   }
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.isRead = isRead;
-  this.id = crypto.randomUUID();
+
+  toggleRead() {
+    this.isRead = !this.isRead;
+  }
 }
 
 function addBook(title, author, pages, isRead) {
@@ -53,7 +56,7 @@ function displayBook(book) {
   const toggleReadBtn = document.createElement('a');
   toggleReadBtn.classList.add('toggle-read');
   toggleReadBtn.textContent = 'Toggle Read';
-  toggleReadBtn.addEventListener('click', toggleRead);
+  toggleReadBtn.addEventListener('click', handleClickToggleRead);
 
   const removeBookBtn = document.createElement('a');
   removeBookBtn.classList.add('remove-book');
@@ -101,11 +104,7 @@ addBtn.addEventListener('click', (event) => {
 
 // Toggle read
 
-Book.prototype.toggleRead = function () {
-  this.isRead = !this.isRead;
-};
-
-function toggleRead(event) {
+function handleClickToggleRead(event) {
   const card = event.target.parentElement;
   const cardID = card.getAttribute('data-id');
   const cardIsRead = card.querySelector('.is-read');
