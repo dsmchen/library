@@ -75,7 +75,7 @@ fantasyLibrary.forEach((book) => displayBook(book));
 const newBookBtn = document.querySelector('button.new-book');
 const overlay = document.querySelector('.overlay');
 const dialog = document.querySelector('dialog');
-const addBtn = document.querySelector('button.add');
+const addBookBtn = document.querySelector('button.add-book');
 
 newBookBtn.addEventListener('click', () => {
   const form = document.querySelector('form');
@@ -88,10 +88,12 @@ overlay.addEventListener('click', () => {
   overlay.classList.toggle('hidden');
 });
 
-addBtn.addEventListener('click', (event) => {
-  const title = document.querySelector('input[name=title]').value;
-  const author = document.querySelector('input[name=author]').value;
-  const pages = document.querySelector('input[name=pages]').value;
+addBookBtn.addEventListener('click', submitForm);
+
+function submitForm() {
+  const title = document.getElementById('title').value;
+  const author = document.getElementById('author').value;
+  const pages = document.getElementById('pages').value;
   const isRead =
     document.querySelector('input[name=is_read]:checked').value === 'true';
 
@@ -100,7 +102,7 @@ addBtn.addEventListener('click', (event) => {
     displayBook(fantasyLibrary.at(-1));
     overlay.classList.toggle('hidden');
   }
-});
+}
 
 // Toggle read
 
