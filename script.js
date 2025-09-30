@@ -75,7 +75,6 @@ fantasyLibrary.forEach((book) => displayBook(book));
 const newBookBtn = document.querySelector('button.new-book');
 const overlay = document.querySelector('.overlay');
 const dialog = document.querySelector('dialog');
-const addBookBtn = document.querySelector('button.add-book');
 
 newBookBtn.addEventListener('click', () => {
   const form = document.querySelector('form');
@@ -88,19 +87,69 @@ overlay.addEventListener('click', () => {
   overlay.classList.toggle('hidden');
 });
 
+const addBookBtn = document.querySelector('button.add-book');
+const title = document.getElementById('title');
+const author = document.getElementById('author');
+const pages = document.getElementById('pages');
+const titleError = document.querySelector('#title + span.error');
+const authorError = document.querySelector('#author + span.error');
+const pagesError = document.querySelector('#pages + span.error');
+
+title.addEventListener('input', () => {
+  if (title.validity.valid) {
+    titleError.textContent = '';
+    title.className = '';
+  } else {
+    showError('title');
+  }
+});
+
+author.addEventListener('input', () => {
+  if (author.validity.valid) {
+    authorError.textContent = '';
+    author.className = '';
+  } else {
+    showError('author');
+  }
+});
+
+pages.addEventListener('input', () => {
+  if (pages.validity.valid) {
+    pagesError.textContent = '';
+    pages.className = '';
+  } else {
+    showError('pages');
+  }
+});
+
 addBookBtn.addEventListener('click', submitForm);
 
-function submitForm() {
-  const title = document.getElementById('title').value;
-  const author = document.getElementById('author').value;
-  const pages = document.getElementById('pages').value;
-  const isRead =
-    document.querySelector('input[name=is_read]:checked').value === 'true';
+function submitForm(event) {
+  if (title.validity.valid && author.validity.valid && pages.validity.valid) {
+    const isReadValue =
+      document.querySelector('input[name=is_read]:checked').value === 'true';
 
-  if (title && author && pages) {
-    addBook(title, author, pages, isRead);
+    addBook(title.value, author.value, pages.value, isReadValue);
     displayBook(fantasyLibrary.at(-1));
     overlay.classList.toggle('hidden');
+  } else {
+    showError('all');
+    event.preventDefault();
+  }
+}
+
+function showError(input) {
+  if (input === 'title' || (input === 'all' && title.validity.valueMissing)) {
+    title.className = 'error';
+    titleError.textContent = 'Title is required';
+  }
+  if (input === 'author' || (input === 'all' && author.validity.valueMissing)) {
+    author.className = 'error';
+    authorError.textContent = 'Author is required';
+  }
+  if (input === 'pages' || (input === 'all' && pages.validity.valueMissing)) {
+    pages.className = 'error';
+    pagesError.textContent = 'Pages is required';
   }
 }
 

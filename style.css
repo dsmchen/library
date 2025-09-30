@@ -216,10 +216,6 @@ form input {
   padding: 5px 10px;
 }
 
-form input:user-invalid {
-  border-color: #d1242f;
-}
-
 form fieldset {
   position: relative;
   margin-top: calc(1rem + 35px);
@@ -241,4 +237,18 @@ form fieldset label {
 
 button.add-to-library {
   width: 100%;
+}
+
+/* Error */
+
+form input:user-invalid {
+  border-color: #d1242f;
+}
+
+input.error {
+  border-color: #d1242f;
+}
+
+span.error {
+  color: #d1242f;
 }

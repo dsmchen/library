@@ -14,19 +14,22 @@
     <main></main>
     <div class="overlay hidden"></div>
     <dialog>
-      <form method="dialog">
+      <form method="dialog" novalidate>
         <h2>New Book</h2>
         <div class="form-row">
           <label for="title">Title (required)</label>
           <input type="text" name="title" id="title" required />
+          <span class="error" aria-live="polite"></span>
         </div>
         <div class="form-row">
           <label for="author">Author (required)</label>
           <input type="text" name="author" id="author" required />
+          <span class="error" aria-live="polite"></span>
         </div>
         <div class="form-row">
           <label for="pages">Pages (required)</label>
           <input type="tel" name="pages" id="pages" required />
+          <span class="error" aria-live="polite"></span>
         </div>
         <div>
           <fieldset>
